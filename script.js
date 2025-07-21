@@ -9,7 +9,8 @@ const plan = [
       ],
       [
         { id: "AM1", nombre: "Análisis Matemático 1", requisitosAprobada: ["mat"] },
-        { id: "alg1", nombre: "Álgebra I" }
+        { id: "Química", nombre: "Química", requisitosAprobada: ["FyQ"] },
+        { id: "TyL", nombre: "Taller y Laboratorio", requisitosAprobada: ["mat","AU"] },
       ]
     ]
   },
