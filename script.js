@@ -1,57 +1,90 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f0f2f5;
+// MATERIAS ORDENADAS POR AÑO Y CUATRIMESTRE
+const plan = [
+  {
+    año: "1° Año",
+    cuatrimestres: [
+      [
+        { id: "mat1", nombre: "Matemática I", requisitos: [] },
+        { id: "prog1", nombre: "Programación I", requisitos: [] }
+      ],
+      [
+        { id: "fis1", nombre: "Física I", requisitos: ["mat1"] },
+        { id: "alg1", nombre: "Álgebra I", requisitos: [] }
+      ]
+    ]
+  },
+  {
+    año: "2° Año",
+    cuatrimestres: [
+      [
+        { id: "mat2", nombre: "Matemática II", requisitos: ["mat1"] },
+        { id: "prog2", nombre: "Programación II", requisitos: ["prog1"] }
+      ],
+      [
+        { id: "fis2", nombre: "Física II", requisitos: ["fis1", "mat2"] }
+      ]
+    ]
+  }
+];
+
+// ESTADOS GUARDADOS
+const estados = JSON.parse(localStorage.getItem("estados")) || {};
+
+// FUNCIONES
+function guardarEstado() {
+  localStorage.setItem("estados", JSON.stringify(estados));
 }
 
-h1 {
-  text-align: center;
+function cambiarEstado(id) {
+  const actual = estados[id] || "nada";
+  const nuevo = actual === "nada" ? "regular" : actual === "regular" ? "aprobada" : "nada";
+  estados[id] = nuevo;
+  guardarEstado();
+  renderMalla();
 }
 
-.año {
-  margin-bottom: 30px;
+function desbloqueada(materia) {
+  return materia.requisitos.every(id => estados[id] === "aprobada");
 }
 
-.titulo-año {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
+// RENDER
+function renderMalla() {
+  const contenedor = document.getElementById("malla");
+  contenedor.innerHTML = "";
 
-.cuatrimestre {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
+  plan.forEach(bloque => {
+    const divAño = document.createElement("div");
+    divAño.className = "año";
+    const titulo = document.createElement("h2");
+    titulo.className = "titulo-año";
+    titulo.textContent = bloque.año;
+    divAño.appendChild(titulo);
 
-.materia {
-  border: 2px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
-  background: #fff;
-  width: 180px;
-  cursor: pointer;
-  text-align: center;
-}
+    bloque.cuatrimestres.forEach((cuatri, index) => {
+      const divCuatri = document.createElement("div");
+      divCuatri.className = "cuatrimestre";
+      const label = document.createElement("p");
+      label.innerHTML = `<strong>${index + 1}° Cuatrimestre</strong>`;
+      divAño.appendChild(label);
 
-.materia.regular {
-  border-color: orange;
-}
-.materia.aprobada {
-  border-color: green;
-  background-color: #d7ffdb;
-}
-.materia.bloqueada {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.estado {
-  font-size: 0.8em;
-  margin-top: 5px;
-}
+      cuatri.forEach(m => {
+        const estado = estados[m.id] || "nada";
+        const divMateria = document.createElement("div");
+        divMateria.className = "materia";
+        if (estado) divMateria.classList.add(estado);
+        if (!desbloqueada(m)) divMateria.classList.add("bloqueada");
 
-    contenedor.appendChild(div);
+        divMateria.innerHTML = `<strong>${m.nombre}</strong><div class="estado">${estado || "no cursada"}</div>`;
+        if (desbloqueada(m)) {
+          divMateria.onclick = () => cambiarEstado(m.id);
+        }
+        divCuatri.appendChild(divMateria);
+      });
+
+      divAño.appendChild(divCuatri);
+    });
+
+    contenedor.appendChild(divAño);
   });
 }
 
