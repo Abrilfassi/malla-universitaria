@@ -1,28 +1,46 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   padding: 20px;
-  background: #f7f7f7;
+  background: #f0f2f5;
 }
-#malla {
+
+h1 {
+  text-align: center;
+}
+
+.año {
+  margin-bottom: 30px;
+}
+
+.titulo-año {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.cuatrimestre {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 15px;
 }
+
 .materia {
   border: 2px solid #ccc;
   padding: 10px;
-  width: 180px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
-  text-align: center;
+  width: 180px;
   cursor: pointer;
+  text-align: center;
 }
+
 .materia.regular {
   border-color: orange;
 }
 .materia.aprobada {
   border-color: green;
-  background: #e0ffe0;
+  background-color: #d7ffdb;
 }
 .materia.bloqueada {
   opacity: 0.5;
