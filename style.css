@@ -1,0 +1,34 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f7f7f7;
+}
+#malla {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.materia {
+  border: 2px solid #ccc;
+  padding: 10px;
+  width: 180px;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.materia.regular {
+  border-color: orange;
+}
+.materia.aprobada {
+  border-color: green;
+  background: #e0ffe0;
+}
+.materia.bloqueada {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.estado {
+  font-size: 0.8em;
+  margin-top: 5px;
+}
