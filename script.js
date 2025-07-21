@@ -23,10 +23,11 @@ const plan = [
       ],
       [
         { id: "fis1", nombre: "Física I", requisitosAprobada: [], requisitosRegular: [] },
-        { id: "lab1", nombre: "Laboratorio I", requisitosAprobada: [], requisitosRegular: ["prog1"] } // Requiere regular
+        { id: "lab1", nombre: "Laboratorio I", requisitosAprobada: [], requisitosRegular: ["prog1"] }
       ]
     ]
   },
+  // resto de años igual...
   {
     año: "2° Año",
     cuatrimestres: [
@@ -36,43 +37,77 @@ const plan = [
       ],
       [
         { id: "fis2", nombre: "Física II", requisitosAprobada: ["fis1"], requisitosRegular: ["mat2"] },
-        { id: "lab2", nombre: "Laboratorio II", requisitosAprobada: [], requisitosRegular: ["lab1", "TyL"] } // Dos prereqs regulares
-      ]
-    ]
-  },
-  // Agregá 3, 4 y 5° años con similar estructura
-  {
-    año: "3° Año",
-    cuatrimestres: [
-      [
-        { id: "matec", nombre: "Matemática Aplicada", requisitosAprobada: ["mat3"], requisitosRegular: [] },
-        { id: "prog3", nombre: "Programación III", requisitosAprobada: ["prog2"], requisitosRegular: [] }
-      ],
-      [
-        { id: "fis3", nombre: "Física III", requisitosAprobada: ["fis2"], requisitosRegular: ["matec"] }
-      ]
-    ]
-  },
-  {
-    año: "4° Año",
-    cuatrimestres: [
-      [
-        { id: "ingSoft", nombre: "Ingeniería de Software", requisitosAprobada: ["prog3"], requisitosRegular: [] }
-      ],
-      [
-        { id: "proy", nombre: "Proyecto Final", requisitosAprobada: ["ingSoft"], requisitosRegular: ["fis3"] }
-      ]
-    ]
-  },
-  {
-    año: "5° Año",
-    cuatrimestres: [
-      [
-        { id: "tesis", nombre: "Tesis", requisitosAprobada: ["proy"], requisitosRegular: [] }
-      ],
-      [
-        { id: "optativa", nombre: "Materia Optativa", requisitosAprobada: [], requisitosRegular: [] }
+        { id: "lab2", nombre: "Laboratorio II", requisitosAprobada: [], requisitosRegular: ["lab1", "TyL"] }
       ]
     ]
   }
+  // y así seguís con 3°, 4°, 5°
 ];
+
+function renderMalla() {
+  const contenedor = document.getElementById("contenedor");
+  contenedor.innerHTML = "";
+
+  plan.forEach(anioObj => {
+    const divAnio = document.createElement("div");
+    divAnio.className = "anio";
+
+    const tituloAnio = document.createElement("h2");
+    tituloAnio.textContent = anioObj.año;
+    divAnio.appendChild(tituloAnio);
+
+    if (anioObj.año.toLowerCase().includes("ingreso")) {
+      anioObj.cuatrimestres.forEach((bloque, index) => {
+        const divBloque = document.createElement("div");
+        divBloque.className = "bloque-ingreso";
+
+        const tituloBloque = document.createElement("h3");
+        tituloBloque.textContent = `Bloque ${index + 1}`;
+        divBloque.appendChild(tituloBloque);
+
+        const ulMaterias = document.createElement("ul");
+
+        bloque.forEach(materia => {
+          const li = document.createElement("li");
+          const requisitosA = materia.requisitosAprobada.length ? `Aprobada: ${materia.requisitosAprobada.join(", ")}` : "";
+          const requisitosR = materia.requisitosRegular.length ? `Regular: ${materia.requisitosRegular.join(", ")}` : "";
+          const textoReq = [requisitosA, requisitosR].filter(Boolean).join(" / ");
+
+          li.textContent = `${materia.nombre} ${textoReq ? `(${textoReq})` : ""}`;
+          ulMaterias.appendChild(li);
+        });
+
+        divBloque.appendChild(ulMaterias);
+        divAnio.appendChild(divBloque);
+      });
+    } else {
+      anioObj.cuatrimestres.forEach((cuatri, index) => {
+        const divCuatri = document.createElement("div");
+        divCuatri.className = "cuatrimestre";
+
+        const tituloCuatri = document.createElement("h3");
+        tituloCuatri.textContent = `Cuatrimestre ${index + 1}`;
+        divCuatri.appendChild(tituloCuatri);
+
+        const ulMaterias = document.createElement("ul");
+
+        cuatri.forEach(materia => {
+          const li = document.createElement("li");
+          const requisitosA = materia.requisitosAprobada.length ? `Aprobada: ${materia.requisitosAprobada.join(", ")}` : "";
+          const requisitosR = materia.requisitosRegular.length ? `Regular: ${materia.requisitosRegular.join(", ")}` : "";
+          const textoReq = [requisitosA, requisitosR].filter(Boolean).join(" / ");
+
+          li.textContent = `${materia.nombre} ${textoReq ? `(${textoReq})` : ""}`;
+          ulMaterias.appendChild(li);
+        });
+
+        divCuatri.appendChild(ulMaterias);
+        divAnio.appendChild(divCuatri);
+      });
+    }
+
+    contenedor.appendChild(divAnio);
+  });
+}
+
+renderMalla();
