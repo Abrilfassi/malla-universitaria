@@ -1,52 +1,53 @@
 body {
   font-family: Arial, sans-serif;
+  background: #f9f9f9;
   padding: 20px;
-  background: #f0f2f5;
+  color: #333;
 }
 
 h1 {
   text-align: center;
-}
-
-.año {
   margin-bottom: 30px;
 }
 
-.titulo-año {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.cuatrimestre {
+.grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 20px;
+  justify-content: center;
 }
 
-.materia {
-  border: 2px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
+.year {
   background: #fff;
-  width: 180px;
-  cursor: pointer;
-  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  width: 280px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.materia.regular {
-  border-color: orange;
+.semester {
+  margin-top: 10px;
 }
-.materia.aprobada {
-  border-color: green;
-  background-color: #d7ffdb;
+
+.subject {
+  background: #e4e4e4;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border: 2px solid #ccc;
 }
-.materia.bloqueada {
-  opacity: 0.5;
-  cursor: not-allowed;
+
+/* Estado: Regular */
+.subject.regular {
+  background-color: #fdd9a0;
+  border-color: #f9b24c;
 }
-.estado {
-  font-size: 0.8em;
-  margin-top: 5px;
+
+/* Estado: Aprobada */
+.subject.approved {
+  background-color: #c2f0c2;
+  border-color: #68d268;
 }
