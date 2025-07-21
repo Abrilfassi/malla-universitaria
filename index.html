@@ -1,13 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Malla Interactiva Universitaria</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Curricular Interactiva</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>Malla Curricular Interactiva</h1>
-  <div id="malla"></div>
+  <h1>Malla Curricular</h1>
+  <div class="grid">
+    <div class="year">
+      <h2>Ingreso</h2>
+      <div class="subject" data-code="ING1">Matemática</div>
+      <div class="subject" data-code="ING2">Lectura y Escritura</div>
+    </div>
+
+    <div class="year">
+      <h2>1° Año</h2>
+      <div class="semester">
+        <h3>1° Cuatrimestre</h3>
+        <div class="subject" data-code="MAT1">Álgebra</div>
+        <div class="subject" data-code="FIS1">Física I</div>
+      </div>
+      <div class="semester">
+        <h3>2° Cuatrimestre</h3>
+        <div class="subject" data-code="AN1" data-prereq="MAT1">Análisis I</div>
+        <div class="subject" data-code="FIS2" data-prereq="FIS1,MAT1">Física II</div>
+      </div>
+    </div>
+
+    <div class="year">
+      <h2>2° Año</h2>
+      <div class="semester">
+        <h3>1° Cuatrimestre</h3>
+        <div class="subject" data-code="PROG1" data-prereq="MAT1">Programación I</div>
+      </div>
+    </div>
+    <!-- Agregá más años y materias acá -->
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
