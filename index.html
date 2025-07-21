@@ -4,42 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Malla Curricular Interactiva</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Malla Curricular</h1>
-  <div class="grid">
+  <div class="container">
+    <h1>Malla Curricular</h1>
+    
     <div class="year">
       <h2>Ingreso</h2>
-      <div class="subject" data-code="ING1">Matemática</div>
-      <div class="subject" data-code="ING2">Lectura y Escritura</div>
-    </div>
-
-    <div class="year">
-      <h2>1° Año</h2>
       <div class="semester">
-        <h3>1° Cuatrimestre</h3>
-        <div class="subject" data-code="MAT1">Álgebra</div>
-        <div class="subject" data-code="FIS1">Física I</div>
-      </div>
-      <div class="semester">
-        <h3>2° Cuatrimestre</h3>
-        <div class="subject" data-code="AN1" data-prereq="MAT1">Análisis I</div>
-        <div class="subject" data-code="FIS2" data-prereq="FIS1,MAT1">Física II</div>
+        <div class="subject" data-id="intro">Introducción a la Universidad</div>
+        <div class="subject" data-id="nivelacion">Nivelación Matemática</div>
       </div>
     </div>
 
     <div class="year">
-      <h2>2° Año</h2>
+      <h2>1º Año</h2>
       <div class="semester">
-        <h3>1° Cuatrimestre</h3>
-        <div class="subject" data-code="PROG1" data-prereq="MAT1">Programación I</div>
+        <div class="subject" data-id="analisis1">Análisis Matemático I</div>
+        <div class="subject" data-id="algebra">Álgebra y Geometría Analítica</div>
+        <div class="subject" data-id="quimica">Química</div>
+      </div>
+      <div class="semester">
+        <div class="subject" data-id="fisica1">Física I</div>
+        <div class="subject" data-id="programacion">Programación</div>
+        <div class="subject" data-id="expresion">Expresión Oral y Escrita</div>
       </div>
     </div>
-    <!-- Agregá más años y materias acá -->
+
+    <!-- Agregá más años/cuatrimestres aquí -->
+
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
