@@ -1,18 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const subjects = document.querySelectorAll(".subject");
-
-  subjects.forEach(subject => {
-    subject.addEventListener("click", () => toggleSubjectState(subject));
+document.querySelectorAll('.subject').forEach(subject => {
+  subject.addEventListener('click', () => {
+    if (subject.classList.contains('approved')) {
+      subject.classList.remove('approved');
+    } else if (subject.classList.contains('regular')) {
+      subject.classList.remove('regular');
+      subject.classList.add('approved');
+    } else {
+      subject.classList.add('regular');
+    }
   });
 });
-
-function toggleSubjectState(element) {
-  if (element.classList.contains('approved')) {
-    element.classList.remove('approved');
-  } else if (element.classList.contains('regular')) {
-    element.classList.remove('regular');
-    element.classList.add('approved');
-  } else {
-    element.classList.add('regular');
-  }
-}
