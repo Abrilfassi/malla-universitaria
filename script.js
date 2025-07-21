@@ -44,6 +44,8 @@ const mallaData = {
   ]
 };
 
+let materiaSeleccionada = null;
+
 function crearMateria(materia) {
   const div = document.createElement("div");
   div.className = `materia ${materia.estado}`;
@@ -56,12 +58,9 @@ function crearMateria(materia) {
     div.title = "Sin prerrequisitos";
   }
 
-  // (opcional) cambiar estado al hacer click
   div.addEventListener("click", () => {
-    const estados = ["pendiente", "regular", "aprobada"];
-    const index = estados.indexOf(materia.estado);
-    materia.estado = estados[(index + 1) % estados.length];
-    div.className = `materia ${materia.estado}`;
+    materiaSeleccionada = materia;
+    mostrarPopup();
   });
 
   return div;
@@ -69,6 +68,7 @@ function crearMateria(materia) {
 
 function renderMalla(data) {
   const container = document.getElementById("malla-container");
+  container.innerHTML = "";
 
   data.años.forEach(año => {
     const añoDiv = document.createElement("div");
@@ -78,7 +78,9 @@ function renderMalla(data) {
     año.cuatrimestres.forEach(cuatri => {
       const cuatriDiv = document.createElement("div");
       cuatriDiv.className = "cuatrimestre";
-      cuatriDiv.innerHTML = `<h3>Cuatrimestre ${cuatri.cuatri}</h3>`;
+      const titulo = document.createElement("h3");
+      titulo.textContent = `Cuatrimestre ${cuatri.cuatri}`;
+      cuatriDiv.appendChild(titulo);
 
       cuatri.materias.forEach(materia => {
         const materiaDiv = crearMateria(materia);
@@ -90,6 +92,22 @@ function renderMalla(data) {
 
     container.appendChild(añoDiv);
   });
+}
+
+function mostrarPopup() {
+  document.getElementById("popup").classList.remove("hidden");
+}
+
+function cerrarPopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+function cambiarEstado(nuevoEstado) {
+  if (materiaSeleccionada) {
+    materiaSeleccionada.estado = nuevoEstado;
+    cerrarPopup();
+    renderMalla(mallaData);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
