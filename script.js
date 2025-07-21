@@ -1,113 +1,97 @@
-const plan = [
-  {
-    año: "Ingreso",
-    cuatrimestres: [
-      [
-        { id: "mat", nombre: "Matemática", requisitosAprobada: [], requisitosRegular: [] },
-        { id: "FyQ", nombre: "Física y Química", requisitosAprobada: [], requisitosRegular: [] },
-        { id: "AU", nombre: "Ambientación Universitaria", requisitosAprobada: [], requisitosRegular: [] }
-      ],
-      [
-        { id: "AM1", nombre: "Análisis Matemático 1", requisitosAprobada: ["mat"], requisitosRegular: [] },
-        { id: "Quim", nombre: "Química", requisitosAprobada: ["FyQ"], requisitosRegular: [] },
-        { id: "TyL", nombre: "Taller y Laboratorio", requisitosAprobada: ["mat","AU"], requisitosRegular: [] }
+const mallaData = {
+  ingreso: ["Curso de ingreso"],
+  años: [
+    {
+      año: 1,
+      cuatrimestres: [
+        {
+          cuatri: 1,
+          materias: [
+            {
+              nombre: "Álgebra",
+              codigo: "MATH101",
+              estado: "aprobada",
+              prerrequisitos: []
+            },
+            {
+              nombre: "Física I",
+              codigo: "PHYS101",
+              estado: "regular",
+              prerrequisitos: [
+                {
+                  codigo: "MATH101",
+                  tipo: "aprobada"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          cuatri: 2,
+          materias: [
+            {
+              nombre: "Análisis Matemático I",
+              codigo: "MATH102",
+              estado: "pendiente",
+              prerrequisitos: [
+                { codigo: "MATH101", tipo: "aprobada" }
+              ]
+            }
+          ]
+        }
       ]
-    ]
-  },
-  {
-    año: "1° Año",
-    cuatrimestres: [
-      [
-        { id: "prog1", nombre: "Programación I", requisitosAprobada: [], requisitosRegular: [] },
-        { id: "mat2", nombre: "Matemática II", requisitosAprobada: ["AM1"], requisitosRegular: [] }
-      ],
-      [
-        { id: "fis1", nombre: "Física I", requisitosAprobada: [], requisitosRegular: [] },
-        { id: "lab1", nombre: "Laboratorio I", requisitosAprobada: [], requisitosRegular: ["prog1"] }
-      ]
-    ]
-  },
-  // resto de años igual...
-  {
-    año: "2° Año",
-    cuatrimestres: [
-      [
-        { id: "prog2", nombre: "Programación II", requisitosAprobada: ["prog1"], requisitosRegular: [] },
-        { id: "mat3", nombre: "Matemática III", requisitosAprobada: ["mat2"], requisitosRegular: [] }
-      ],
-      [
-        { id: "fis2", nombre: "Física II", requisitosAprobada: ["fis1"], requisitosRegular: ["mat2"] },
-        { id: "lab2", nombre: "Laboratorio II", requisitosAprobada: [], requisitosRegular: ["lab1", "TyL"] }
-      ]
-    ]
-  }
-  // y así seguís con 3°, 4°, 5°
-];
-
-function renderMalla() {
-  const contenedor = document.getElementById("contenedor");
-  contenedor.innerHTML = "";
-
-  plan.forEach(anioObj => {
-    const divAnio = document.createElement("div");
-    divAnio.className = "anio";
-
-    const tituloAnio = document.createElement("h2");
-    tituloAnio.textContent = anioObj.año;
-    divAnio.appendChild(tituloAnio);
-
-    if (anioObj.año.toLowerCase().includes("ingreso")) {
-      anioObj.cuatrimestres.forEach((bloque, index) => {
-        const divBloque = document.createElement("div");
-        divBloque.className = "bloque-ingreso";
-
-        const tituloBloque = document.createElement("h3");
-        tituloBloque.textContent = `Bloque ${index + 1}`;
-        divBloque.appendChild(tituloBloque);
-
-        const ulMaterias = document.createElement("ul");
-
-        bloque.forEach(materia => {
-          const li = document.createElement("li");
-          const requisitosA = materia.requisitosAprobada.length ? `Aprobada: ${materia.requisitosAprobada.join(", ")}` : "";
-          const requisitosR = materia.requisitosRegular.length ? `Regular: ${materia.requisitosRegular.join(", ")}` : "";
-          const textoReq = [requisitosA, requisitosR].filter(Boolean).join(" / ");
-
-          li.textContent = `${materia.nombre} ${textoReq ? `(${textoReq})` : ""}`;
-          ulMaterias.appendChild(li);
-        });
-
-        divBloque.appendChild(ulMaterias);
-        divAnio.appendChild(divBloque);
-      });
-    } else {
-      anioObj.cuatrimestres.forEach((cuatri, index) => {
-        const divCuatri = document.createElement("div");
-        divCuatri.className = "cuatrimestre";
-
-        const tituloCuatri = document.createElement("h3");
-        tituloCuatri.textContent = `Cuatrimestre ${index + 1}`;
-        divCuatri.appendChild(tituloCuatri);
-
-        const ulMaterias = document.createElement("ul");
-
-        cuatri.forEach(materia => {
-          const li = document.createElement("li");
-          const requisitosA = materia.requisitosAprobada.length ? `Aprobada: ${materia.requisitosAprobada.join(", ")}` : "";
-          const requisitosR = materia.requisitosRegular.length ? `Regular: ${materia.requisitosRegular.join(", ")}` : "";
-          const textoReq = [requisitosA, requisitosR].filter(Boolean).join(" / ");
-
-          li.textContent = `${materia.nombre} ${textoReq ? `(${textoReq})` : ""}`;
-          ulMaterias.appendChild(li);
-        });
-
-        divCuatri.appendChild(ulMaterias);
-        divAnio.appendChild(divCuatri);
-      });
     }
+  ]
+};
 
-    contenedor.appendChild(divAnio);
+function crearMateria(materia) {
+  const div = document.createElement("div");
+  div.className = `materia ${materia.estado}`;
+  div.textContent = materia.nombre;
+
+  if (materia.prerrequisitos.length > 0) {
+    const reqs = materia.prerrequisitos.map(req => `${req.codigo} (${req.tipo})`).join(", ");
+    div.title = `Prerrequisitos: ${reqs}`;
+  } else {
+    div.title = "Sin prerrequisitos";
+  }
+
+  // (opcional) cambiar estado al hacer click
+  div.addEventListener("click", () => {
+    const estados = ["pendiente", "regular", "aprobada"];
+    const index = estados.indexOf(materia.estado);
+    materia.estado = estados[(index + 1) % estados.length];
+    div.className = `materia ${materia.estado}`;
+  });
+
+  return div;
+}
+
+function renderMalla(data) {
+  const container = document.getElementById("malla-container");
+
+  data.años.forEach(año => {
+    const añoDiv = document.createElement("div");
+    añoDiv.className = "año";
+    añoDiv.innerHTML = `<h2>Año ${año.año}</h2>`;
+
+    año.cuatrimestres.forEach(cuatri => {
+      const cuatriDiv = document.createElement("div");
+      cuatriDiv.className = "cuatrimestre";
+      cuatriDiv.innerHTML = `<h3>Cuatrimestre ${cuatri.cuatri}</h3>`;
+
+      cuatri.materias.forEach(materia => {
+        const materiaDiv = crearMateria(materia);
+        cuatriDiv.appendChild(materiaDiv);
+      });
+
+      añoDiv.appendChild(cuatriDiv);
+    });
+
+    container.appendChild(añoDiv);
   });
 }
 
-renderMalla();
+document.addEventListener("DOMContentLoaded", () => {
+  renderMalla(mallaData);
+});
