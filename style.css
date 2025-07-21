@@ -1,19 +1,53 @@
-.anio {
-  margin-bottom: 30px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f7f7f7;
 }
 
-.cuatrimestre, .bloque-ingreso {
-  margin-left: 20px;
-  margin-bottom: 15px;
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-h2 {
-  color: #2a2a72;
+#malla-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-h3 {
-  color: #4a4a9d;
+.año {
+  border: 2px solid #444;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
 }
 
+.cuatrimestre {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.materia {
+  padding: 10px;
+  border-radius: 6px;
+  margin: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1 1 180px;
+  text-align: center;
+  border: 1px solid #aaa;
+}
+
+.aprobada {
+  background-color: #b0f2b4;
+}
+
+.regular {
+  background-color: #fef3b5;
+}
+
+.pendiente {
+  background-color: #f3b5b5;
+}
