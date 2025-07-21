@@ -1,34 +1,18 @@
-const plan = [
-  {
-    año: "1° Año",
-    cuatrimestres: [
-      [
-        { id: "mat1", nombre: "Matemática I" },
-        { id: "prog1", nombre: "Programación I" }
-      ],
-      [
-        { id: "fis1", nombre: "Física I", requisitosRegular: ["mat1"] },
-        { id: "alg1", nombre: "Álgebra I" }
-      ]
-    ]
-  },
-  {
-    año: "2° Año",
-    cuatrimestres: [
-      [
-        { id: "mat2", nombre: "Matemática II", requisitosAprobada: ["mat1"] },
-        { id: "prog2", nombre: "Programación II", requisitosAprobada: ["prog1"] }
-      ],
-      [
-        { id: "fis2", nombre: "Física II", requisitosAprobada: ["fis1"], requisitosRegular: ["mat2"] }
-      ]
-    ]
-  }
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const subjects = document.querySelectorAll(".subject");
 
-
-    container.appendChild(semDiv);
+  subjects.forEach(subject => {
+    subject.addEventListener("click", () => toggleSubjectState(subject));
   });
-}
+});
 
-document.addEventListener("DOMContentLoaded", renderMalla);
+function toggleSubjectState(element) {
+  if (element.classList.contains('approved')) {
+    element.classList.remove('approved');
+  } else if (element.classList.contains('regular')) {
+    element.classList.remove('regular');
+    element.classList.add('approved');
+  } else {
+    element.classList.add('regular');
+  }
+}
